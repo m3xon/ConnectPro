@@ -6,7 +6,7 @@ from django.template import Context
 from .models import UserMd
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-
+from profile_app.models import Profile
 # Create your views here.
 
 def home(request):
@@ -53,6 +53,6 @@ def loginAccount(request):
 def on_profile(request):
     userId = request.session.get('userId', 0)
     if userId:
-        curUser = UserMd.objects.get(id = userId)
-        return render(request, 'profile.html', {'userInfo': curUser})
+        info = Profile.objects.get(user__id= userId)
+        return render(request, 'profile.html', {'userInfo': info})
     return HttpResponse("No user information arrived!")

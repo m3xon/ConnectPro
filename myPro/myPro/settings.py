@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'widget_tweaks',
 
     'connect_app',
-    'chatting_app'
+    'chatting_app',
+    'profile_app',
 ]
 
 MIDDLEWARE = [
