@@ -50,9 +50,3 @@ def loginAccount(request):
         form = LoginForm()
     return render(request, 'login.html',{"form": form})
 
-def on_profile(request):
-    userId = request.session.get('userId', 0)
-    if userId:
-        info = Profile.objects.get(user__id= userId)
-        return render(request, 'profile.html', {'userInfo': info})
-    return HttpResponse("No user information arrived!")

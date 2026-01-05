@@ -1,0 +1,155 @@
+{% extends 'base.html'%}
+
+
+
+{% block pages %}
+    <nav class="hidden md:flex items-center gap-6">
+        <a href="/dicover" class="text-sm font-medium hover:text-blue-600 transition-colors">Discover</a>
+        <a href="/message" class="text-sm font-medium hover:text-blue-600 transition-colors">Messages</a>
+        <a href="/profile" class="text-sm font-medium hover:text-blue-600 transition-colors">Profile</a>
+    </nav> 
+{% endblock %}
+
+
+
+{% block extra %}
+    <span class="bg-gray-100 relative flex shrink-0 overflow-hidden rounded-full w-12 h-12">
+        <img src="{{profileInfo.image.url}}" alt="" class="aspect-square h-full w-full">
+    </span>
+{% endblock %}
+
+
+
+{% block content %}
+
+    <div class="bg-gray-100 h-screen w-full">
+
+        <div class="flex h-full">
+
+            <!-- Sidebar -->
+            <div class="w-1/4 bg-white shadow-md">
+                <div class="p-4 border-b">
+                    <h2 class="text-lg font-semibold">Messages</h2>
+                </div>
+                <div class="px-4 py-6 space-y-4">
+                    <!-- Conversations List -->
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                        <div class="flex-1">
+                            <div class="flex flex-row items-center justify-between">
+                                <p class="text-sm font-medium">Alex Chen</p>
+                                <p class="text-sm text-gray-400">2 min ago</p>
+                            </div>
+                            <p class="text-sm text-gray-500">That sounds great! When can we start?</p>
+                        </div>
+                        
+                    </div>
+
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-2 rounded-full bg-gray-300"></div>
+                        <div class="flex-1">
+                            <div class="flex flex-row items-center justify-between">
+                                <p class="text-sm font-medium">Maria Garcia</p>
+                                <p class="text-sm text-gray-400">10 min ago</p>
+                            </div>
+                            <p class="text-sm text-gray-500">I'd love to discuss the project details</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-2 rounded-full bg-gray-300"></div>
+                        <div class="flex-1">
+                            <div class="flex flex-row items-center justify-between">
+                                <p class="text-sm font-medium">James Wilson</p>
+                                <p class="text-sm text-gray-400">1 hour ago</p>
+                            </div>
+                            <p class="text-sm text-gray-500">We're building a mobile app for our startup. Need a React Native developer.</p>
+                        </div>
+                        
+                    </div>
+
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-2 rounded-full bg-gray-300"></div>
+                        <div class="flex-1">
+                            <div class="flex flex-row items-center justify-between">
+                                <p class="text-sm font-medium">Emily Taylor</p>
+                                <p class="text-sm text-gray-400">Yesterday</p>
+                            </div>
+                            <p class="text-sm text-gray-500">Looking forward to working together</p>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Window -->
+            <div class="w-3/4 bg-white shadow-lg">
+                <!-- Header -->
+                <div class="flex items-center justify-between p-4 border-b">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                        <div>
+                            <p class="text-lg font-semibold">Alex Chen</p>
+                            <p class="text-sm text-gray-500">Active now</p>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="text-gray-500 hover:text-gray-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 12h-20"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Messages -->
+                <div class="p-4 space-y-4 overflow-y-auto h-96">
+                    <!-- Message from user -->
+                    <div class="flex justify-end">
+                        <div class="bg-teal-500 text-white p-3 rounded-lg max-w-xs">
+                            Thank you! I'd love to hear more about your project.
+                        </div>
+                    </div>
+
+                    <!-- Message from contact -->
+                    <div class="flex justify-start">
+                        <div class="bg-gray-200 text-gray-700 p-3 rounded-lg max-w-xs">
+                            Hi! I saw your profile and I'm impressed with your work.
+                        </div>
+                    </div>
+
+                    <!-- Message from user -->
+                    <div class="flex justify-end">
+                        <div class="bg-teal-500 text-white p-3 rounded-lg max-w-xs">
+                            That sounds interesting! I have extensive experience with React Native. Could you share more details?
+                        </div>
+                    </div>
+
+                    <!-- Message from contact -->
+                    <div class="flex justify-start">
+                        <div class="bg-gray-200 text-gray-700 p-3 rounded-lg max-w-xs">
+                            We're building a mobile app for our startup. Need a React Native developer.
+                        </div>
+                    </div>
+
+                    <!-- Message from user -->
+                    <div class="flex justify-end">
+                        <div class="bg-teal-500 text-white p-3 rounded-lg max-w-xs">
+                            That sounds great! When can we start?
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Area -->
+                <div class="p-4 border-t">
+                    <form class="flex items-center">
+                        <input type="text" class="flex-1 p-2 border rounded-lg text-sm" placeholder="Type a message..." />
+                        <button type="submit" class="ml-2 bg-teal-500 text-white p-2 rounded-lg">
+                            Send
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock%}

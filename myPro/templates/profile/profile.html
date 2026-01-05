@@ -26,14 +26,14 @@
     <div class="flex flex-col items-center justify-center" style="max-width: 1400px;">
         <div class=" flex flex-row rounded-lg  border shadow-md mb-6 h-48 w-full mt-10 p-5">
             <span class="bg-gray-100 relative flex shrink-0 overflow-hidden rounded-full w-32 h-32">
-                <img src="/placeholder.svg" alt="" class="aspect-square h-full w-full">
+                <img src="{{profileInfo.image.url}}" alt="" class="aspect-square h-full w-full">
             </span>
             <div class="flex-1 space-y-4">
                 <div class="ml-6 text-gray-500">
                     <div class="flex items-start justify-between mb-2">
                         <div>
-                            <h1 class="text-3xl font-bold mb-1 text-gray-800">{{userInfo.full_name}}</h1>
-                            <p class = "text-lg"> {{userInfo.major}}</p>
+                            <h1 class="text-3xl font-bold mb-1 text-gray-800">{{profileInfo.full_name}}</h1>
+                            <p class = "text-lg"> {{profileInfo.major}}</p>
                         </div>
                         <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-yellow-500 text-secondary-foreground hover:bg-yellow-400 capitalize">
                             Plus
@@ -44,7 +44,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin w-4 h-4">
                                 <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
                                 <circle cx="12" cy="10" r="3"></circle>
-                            </svg>{{userInfo.address}}
+                            </svg>{{profileInfo.address}}
                         </div>
                         <div class="flex items-center gap-1">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail w-4 h-4">
@@ -62,8 +62,8 @@
                     </div>
                 </div>
                 <div class="flex gap-3 ml-6">
-                    <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-blue-400 text-white hover:bg-blue-300 h-10 px-4 py-2">Edit Profile</button>
-                    <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-blue-100 hover:text-blue-500 h-10 px-4 py-2">Share Profile</button>
+                    <a href="{% url 'edit_profile'%}" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-blue-400 text-white hover:bg-blue-300 h-10 px-4 py-2">Edit Profile</a>
+                    <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-blue-100 hover:text-blue-500 h-10 px-4 py-2">Share Profile</a>
                 </div>
             </div>
         </div>
@@ -73,7 +73,7 @@
             <div class="flex flex-row items-center justify-between rounded-lg border h-24 max-w-md p-6 mr-3 shadow-sm">
                 <div class="flex flex-col">
                     <p>Active Connections</p>
-                    <h2>24</h2>
+                    <h2>{{profileInfo.active_connections}}</h2>
                 </div>
                 <div class="rounded-lg w-12 h-12 bg-blue-100 flex items-center justify-center ml-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="blue" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users w-6 h-6 text-primary">
@@ -86,8 +86,8 @@
             </div>
             <div class="flex flex-row items-center justify-between rounded-lg border h-24 max-w-md p-6 m-3 shadow-sm">
                 <div class="flex flex-col">
-                    <p>Active Connections</p>
-                    <h2>24</h2>
+                    <p>Remaining Today</p>
+                    <h2>{{profileInfo.remain_msg}}/{{profileInfo.total_msg}}</h2>
                 </div>
                 <div class="rounded-lg w-12 h-12 bg-blue-100 flex items-center justify-center ml-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="blue" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users w-6 h-6 text-primary">
@@ -100,8 +100,8 @@
             </div>
             <div class="flex flex-row items-center justify-between rounded-lg border h-24 max-w-md p-6 ml-3 shadow-sm">
                 <div class="flex flex-col">
-                    <p>Active Connections</p>
-                    <h2>24</h2>
+                    <p>Profile Reviews</p>
+                    <h2>{{profileInfo.reviews}}</h2>
                 </div>
                 <div class="rounded-lg w-12 h-12 bg-blue-100 flex items-center justify-center ml-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="blue" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users w-6 h-6 text-primary">
@@ -116,7 +116,7 @@
 
         <div class="flex flex-col w-full">
             <!-- Tabs for Navigation -->
-            <div role="tablist" aria-orientation="horizontal" class="inline-flex w-full h-10 items-center justify-between rounded-md bg-gray-100 p-1 text-muted-foreground" tabindex="0" data-orientation="horizontal" style="outline: none;">
+            <div role="tablist" aria-orientation="horizontal" class="inline-flex w-64 h-10 items-center justify-between rounded-md bg-gray-100 p-1 text-muted-foreground" tabindex="0" data-orientation="horizontal" style="outline: none;">
                 <button type="button" role="tab" aria-selected="false" aria-controls="about-tab-content" id="about-tab" class="tab-btn py-2 px-4 text-sm font-semibold rounded-md bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2">
                     About
                 </button>
@@ -131,7 +131,7 @@
             <!-- Content Panels -->
             <div role="tabpanel" aria-labelledby="about-tab" id="about-tab-content" class="tab-content bg-gray-50 p-6 rounded-lg mt-4 hidden">
                 <h3 class="text-2xl font-bold mb-4">About</h3>
-                <p>Content for the About section goes here.</p>
+                <p>{{profileInfo.about}}</p>
             </div>
             
             <div role="tabpanel" aria-labelledby="experience-tab" id="experience-tab-content" class="tab-content bg-gray-50 p-6 rounded-lg mt-4 hidden">
@@ -139,15 +139,15 @@
                 <div class="flex items-start mb-8">
                     <div class="timeline-line mr-6 h-full"></div>
                     <div>
-                        <h3 class="text-xl font-semibold text-teal-500">Senior Developer</h3>
-                        <p class="text-lg text-teal-400">Tech Innovations Inc</p>
+                        <h3 class="text-2xl font-bold mb-4">Experience</h3>                      <!--  <p class="text-lg text-teal-400">Tech Innovations Inc</p>
                         <p class="text-gray-500">2021 - Present</p>
-                        <p class="text-gray-700 mt-2">Leading development of enterprise applications</p>
+                        <p class="text-gray-700 mt-2">Leading development of enterprise applications</p> -->
+                        <p>{{profileInfo.experience}}</p>
                     </div>
                 </div>
 
                 <!-- Experience Item 2 -->
-                <div class="flex items-start mb-8">
+                <!-- <div class="flex items-start mb-8">
                     <div class="timeline-line mr-6 h-full"></div>
                     <div>
                         <h3 class="text-xl font-semibold text-teal-500">Full Stack Developer</h3>
@@ -155,7 +155,7 @@
                         <p class="text-gray-500">2018 - 2021</p>
                         <p class="text-gray-700 mt-2">Built and scaled web applications</p>
                     </div>
-                </div>
+                </div> -->
             </div>
             
             <div role="tabpanel" aria-labelledby="skills-tab" id="skills-tab-content" class="tab-content bg-gray-50 p-6 rounded-lg mt-4">
@@ -163,11 +163,11 @@
                     <div class="p-6 pt-6">
                         <h2 class="text-xl font-semibold mb-4">Skills</h2>
                         <div class="flex flex-wrap gap-2">
-                            <div class="skill-tag py-1 px-4 rounded-full text-teal-500 border border-teal-500 bg-teal-100 hover:bg-teal-200">React</div>
-                            <div class="skill-tag py-1 px-4 rounded-full text-teal-500 border border-teal-500 bg-teal-100 hover:bg-teal-200">Node.js</div>
+                            <div class="skill-tag py-1 px-4 rounded-full text-teal-500 border border-teal-500 bg-teal-100 hover:bg-teal-200">{{profileInfo.skills}}</div>
+                            <!-- <div class="skill-tag py-1 px-4 rounded-full text-teal-500 border border-teal-500 bg-teal-100 hover:bg-teal-200">Node.js</div>
                             <div class="skill-tag py-1 px-4 rounded-full text-teal-500 border border-teal-500 bg-teal-100 hover:bg-teal-200">TypeScript</div>
                             <div class="skill-tag py-1 px-4 rounded-full text-teal-500 border border-teal-500 bg-teal-100 hover:bg-teal-200">PostgreSQL</div>
-                            <div class="skill-tag py-1 px-4 rounded-full text-teal-500 border border-teal-500 bg-teal-100 hover:bg-teal-200">AWS</div>
+                            <div class="skill-tag py-1 px-4 rounded-full text-teal-500 border border-teal-500 bg-teal-100 hover:bg-teal-200">AWS</div> -->
                         </div>
                     </div>
                 </div>
@@ -175,22 +175,33 @@
         </div>
 
 <script>
-    const tabs = document.querySelectorAll('.tab-btn');
-    const tabContents = document.querySelectorAll('.tab-content');
-    
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            // Deactivate all tabs and hide all content
-            tabs.forEach(t => t.classList.remove('active'));
-            tabContents.forEach(content => content.classList.remove('active', 'hidden'));
+    document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
             
-            // Activate clicked tab and show corresponding content
-            tab.classList.add('active');
-            const targetContent = document.getElementById(`${tab.id}-content`);
-            targetContent.classList.add('active');
-            targetContent.classList.remove('hidden');
+            // Set initial active tab and content
+            const setActiveTab = (selectedTab) => {
+                // Remove 'active' class from all tabs and hide all contents
+                tabs.forEach(tab => tab.classList.remove('active', 'bg-gray-500', 'text-white'));
+                tabContents.forEach(content => content.classList.add('hidden'));
+                
+                // Add 'active' class to selected tab and show corresponding content
+                selectedTab.classList.add('active', 'bg-gray-500', 'text-white');
+                const targetContent = document.getElementById(`${selectedTab.id}-content`);
+                targetContent.classList.remove('hidden');
+            };
+
+            // Add click event listener to all tabs
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    setActiveTab(this);  // Pass clicked tab to setActiveTab function
+                });
+            });
+
+            // Optionally, initialize the first tab as active when the page loads
+            setActiveTab(tabs[0]); // By default, the first tab will be selected
         });
-    });
+
 </script>
         <!-- <div class="flex flex-col w-full">
             <div role="tablist" aria-orientation="horizontal" class="inline-flex w-64 h-10 items-center justify-between rounded-md bg-gray-100 p-1 text-muted-foreground" tabindex="0" data-orientation="horizontal" style="outline: none;">
