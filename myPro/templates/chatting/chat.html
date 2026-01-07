@@ -1,16 +1,12 @@
-{% extends 'base.html'%}
-
-
+{% extends 'base.html' %}
 
 {% block pages %}
     <nav class="hidden md:flex items-center gap-6">
-        <a href="/dicover" class="text-sm font-medium hover:text-blue-600 transition-colors">Discover</a>
+        <a href="/discover" class="text-sm font-medium hover:text-blue-600 transition-colors">Discover</a>
         <a href="/message" class="text-sm font-medium hover:text-blue-600 transition-colors">Messages</a>
         <a href="/profile" class="text-sm font-medium hover:text-blue-600 transition-colors">Profile</a>
     </nav> 
 {% endblock %}
-
-
 
 {% block extra %}
     <span class="bg-gray-100 relative flex shrink-0 overflow-hidden rounded-full w-12 h-12">
@@ -18,10 +14,7 @@
     </span>
 {% endblock %}
 
-
-
 {% block content %}
-
     <div class="bg-gray-100 h-screen w-full">
 
         <div class="flex h-full">
@@ -42,43 +35,8 @@
                             </div>
                             <p class="text-sm text-gray-500">That sounds great! When can we start?</p>
                         </div>
-                        
                     </div>
-
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 rounded-full bg-gray-300"></div>
-                        <div class="flex-1">
-                            <div class="flex flex-row items-center justify-between">
-                                <p class="text-sm font-medium">Maria Garcia</p>
-                                <p class="text-sm text-gray-400">10 min ago</p>
-                            </div>
-                            <p class="text-sm text-gray-500">I'd love to discuss the project details</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 rounded-full bg-gray-300"></div>
-                        <div class="flex-1">
-                            <div class="flex flex-row items-center justify-between">
-                                <p class="text-sm font-medium">James Wilson</p>
-                                <p class="text-sm text-gray-400">1 hour ago</p>
-                            </div>
-                            <p class="text-sm text-gray-500">We're building a mobile app for our startup. Need a React Native developer.</p>
-                        </div>
-                        
-                    </div>
-
-                    <div class="flex items-center space-x-3">
-                        <div class="w-2 h-2 rounded-full bg-gray-300"></div>
-                        <div class="flex-1">
-                            <div class="flex flex-row items-center justify-between">
-                                <p class="text-sm font-medium">Emily Taylor</p>
-                                <p class="text-sm text-gray-400">Yesterday</p>
-                            </div>
-                            <p class="text-sm text-gray-500">Looking forward to working together</p>
-                        </div>
-                        
-                    </div>
+                    <!-- Add more conversations here... -->
                 </div>
             </div>
 
@@ -103,48 +61,15 @@
                 </div>
 
                 <!-- Messages -->
-                <div class="p-4 space-y-4 overflow-y-auto h-96">
-                    <!-- Message from user -->
-                    <div class="flex justify-end">
-                        <div class="bg-teal-500 text-white p-3 rounded-lg max-w-xs">
-                            Thank you! I'd love to hear more about your project.
-                        </div>
-                    </div>
-
-                    <!-- Message from contact -->
-                    <div class="flex justify-start">
-                        <div class="bg-gray-200 text-gray-700 p-3 rounded-lg max-w-xs">
-                            Hi! I saw your profile and I'm impressed with your work.
-                        </div>
-                    </div>
-
-                    <!-- Message from user -->
-                    <div class="flex justify-end">
-                        <div class="bg-teal-500 text-white p-3 rounded-lg max-w-xs">
-                            That sounds interesting! I have extensive experience with React Native. Could you share more details?
-                        </div>
-                    </div>
-
-                    <!-- Message from contact -->
-                    <div class="flex justify-start">
-                        <div class="bg-gray-200 text-gray-700 p-3 rounded-lg max-w-xs">
-                            We're building a mobile app for our startup. Need a React Native developer.
-                        </div>
-                    </div>
-
-                    <!-- Message from user -->
-                    <div class="flex justify-end">
-                        <div class="bg-teal-500 text-white p-3 rounded-lg max-w-xs">
-                            That sounds great! When can we start?
-                        </div>
-                    </div>
+                <div id="message-container" class="p-4 space-y-4 overflow-y-auto h-96">
+                    <!-- Messages will be inserted here dynamically -->
                 </div>
 
                 <!-- Input Area -->
                 <div class="p-4 border-t">
-                    <form class="flex items-center">
-                        <input type="text" class="flex-1 p-2 border rounded-lg text-sm" placeholder="Type a message..." />
-                        <button type="submit" class="ml-2 bg-teal-500 text-white p-2 rounded-lg">
+                    <form id="chat-form" class="flex items-center">
+                        <input id="message-input" type="text" class="flex-1 p-2 border rounded-lg text-sm" placeholder="Type a message..." />
+                        <button id="send-button" type="submit" class="ml-2 bg-blue-500 text-white p-2 rounded-lg">
                             Send
                         </button>
                     </form>
@@ -152,4 +77,44 @@
             </div>
         </div>
     </div>
-{% endblock%}
+
+    <script>
+        const senderId = {{profileInfo.user.id}};
+        const chatSocket = new WebSocket(
+            'ws://' + window.location.host + '/ws/chat/' + '{{roomId}}' + '/'  // P2P WebSocket URL
+        );
+        console.log(chatSocket, "----------------------------")
+        // Handle incoming messages
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            const message = data.message;
+
+            const messageContainer = document.getElementById('message-container');
+            const newMessage = document.createElement('div');
+            newMessage.classList.add('flex', message.senderId === senderId ? 'justify-end' : 'justify-start');
+            newMessage.innerHTML = `
+                <div class="bg-${message.senderId === senderId  ? 'blue-500' : 'gray-400'} text-white p-3  rounded-lg max-w-xs">
+                    ${message.text}
+                </div>
+            `;
+            messageContainer.appendChild(newMessage);
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+        };
+
+        // Handle message sending
+        document.querySelector('#chat-form').onsubmit = function(e) {
+            e.preventDefault();
+            const messageText = document.querySelector('#message-input').value;
+            console.log("here-----------------------------")
+            const message = {
+                    'message': messageText,
+                    'senderId': senderId
+                }
+            if (messageText) {
+                chatSocket.send(JSON.stringify(message));
+                document.querySelector('#message-input').value = '';  // Clear the input field
+            }
+        }
+    </script>
+
+{% endblock %}

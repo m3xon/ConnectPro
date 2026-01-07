@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+
+{% block pages %}
+    <nav class="hidden md:flex items-center gap-6">
+        <a href="/discover" class="text-sm font-medium hover:text-blue-600 transition-colors">Discover</a>
+        <a href="/message" class="text-sm font-medium hover:text-blue-600 transition-colors">Messages</a>
+        <a href="/profile" class="text-sm font-medium hover:text-blue-600 transition-colors">Profile</a>
+    </nav> 
+{% endblock %}
+
+{% block extra %}
+    <span class="bg-gray-100 relative flex shrink-0 overflow-hidden rounded-full w-12 h-12">
+        <img src="{{profileInfo.image.url}}" alt="" class="aspect-square h-full w-full">
+    </span>
+{% endblock %}
+
+{% block content %}
+    <div class="min-h-screen bg-gray-50">
+
+        <!-- Header Section -->
+        <header class="bg-white p-4 shadow-md">
+            <div class="flex justify-between items-center">
+            <!-- Left: Daily Connection Limit -->
+            <div class="text-sm text-gray-600">
+                <span class="font-semibold">Daily Connection Limit</span>
+                <p>You have 3 out of 5 connections remaining today</p>
+            </div>
+
+            <!-- Right: Upgrade Plan Button -->
+            <button class="bg-teal-500 text-white px-4 py-2 rounded-md hover:bg-teal-600">Upgrade Plan</button>
+            </div>
+            
+            
+        </header>
+
+        <!-- Main Content Section -->
+        <div class="flex p-6 space-x-6">
+            <div class="flex flex-col">
+                <div class=" gap-6 p-6 flex flex-col">
+                    <!-- Search Bar Section -->
+                    <div class="flex justify-between items-center border-blue-500 rounded-lg p-3 pt-0">
+                        <input type="text" placeholder="Search by name, skills, or location..." class="w-full max-w-xl px-4 py-2 border rounded-md border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500" />
+                    </div>
+                {% for profile in page_obj %}
+                    <div class="bg-white shadow-lg rounded-lg p-4 flex flex-col space-y-4 w-full">
+                        <div class="flex flex-row">
+                            <!-- Profile Picture -->
+                            <div class="w-fit mr-5 pt-2">
+                                <div class="w-12 h-12 rounded-full bg-gray-200 mx-auto">
+                                    <img src="{{ profile.image.url }}" alt="{{ profile.full_name }}'s profile picture" class="w-full h-full rounded-full object-cover">
+                                </div>
+                            </div>
+                            <div class="flex flex-col w-full">
+                                <div class="flex flex-col w-full">
+                                    <!-- User Info -->
+                                    <div class="text-start">
+                                        <div class="flex flex-row justify-between">
+                                            <h3 class="text-xl font-semibold text-gray-800">{{ profile.full_name }}</h3>
+                                            <span class="text-xs font-medium text-gray-500 border-gray-300 rounded-full">{{ profile.user.user_type }}</span> <!-- Client, Developer, etc. -->
+                                        </div>
+                                        <p class="text-sm text-gray-600">{{ profile.about }}</p>
+                                        <p class="text-sm text-gray-500">{{ profile.address }}</p> <!-- Add location if needed -->
+                                        <p class="text-sm text-gray-500">{{ profile.skills }}</p> 
+                                    </div>
+                                </div>
+                                <div class="flex justify-start mt-4 w-fit">
+                                    <a href="{%url 'connect' id=profile.user.id%}" class="bg-blue-500 text-white text-sm py-2 px-4 rounded-lg hover:bg-teal-600">Connect</a>
+                                    <a href="" class="ml-3 bg-gray-300 text-gray-800 text-sm py-2 px-4 rounded-lg hover:bg-gray-400">View Profile</a>
+                                </div>
+                            </div>
+                                
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+
+                <!-- Pagination Links -->
+                <div class="pagination mt-8 flex justify-center items-center space-x-4">
+                        <span class="step-links text-gray-600">
+                            {% if page_obj.has_previous %}
+                            <a href="?page=1" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">&laquo; First</a>
+                            <a href="?page={{ page_obj.previous_page_number }}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Previous</a>
+                            {% endif %}
+
+                            <span class="current text-gray-800 font-medium">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                            </span>
+
+                            {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Next</a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Last &raquo;</a>
+                            {% endif %}
+                        </span>
+                </div>
+                <div class="block md:hidden p-6">
+                    <div class="bg-white shadow-md p-4 rounded-lg">
+                        <h3 class="text-xl font-semibold mb-4">My Connections (2)</h3>
+                        <div class="space-y-4 w-full">
+                        {% for connection in connections %}
+                            <div class="flex items-center space-x-2 w-full">
+                                <div class="w-8 h-8 bg-gray-200 rounded-full ", style="min-width: 30px; max-width: 30px;">
+                                    <img src="{{ connection.image.url }}" alt="{{ connection.full_name }}'s profile picture" class="w-full h-full rounded-full object-cover ">
+                                </div>
+                                <div class="w-full">
+                                    <h4 class="font-semibold">{{connection.full_name}}</h4>
+                                    <p class="text-sm text-gray-500">{{connection.about}}</p>
+                                </div>
+                                <a href = "{%url 'sel_chat' curId=connection.user.id %}" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 hover:bg-blue-100 hover:text-accent-foreground h-9 rounded-md px-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square w-4 h-4"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        {% endfor %}
+                        </div>
+                        <div class="p-4 flex items-center justify-center border-gray-300 rounded-lg">
+                            <button class="text-teal-500 text-xs font-semibold">View All</button>
+                        </div>
+                    </div>
+                    <!-- Popular Skills -->
+                    <div class="bg-white shadow-md p-4 rounded-lg mt-4">
+                        <h3 class="text-xl font-semibold mb-4">Popular Skills</h3>
+                        <div class="flex flex-wrap gap-2">
+                        <span class="bg-yellow-200 text-orange-800 text-xs px-2 py-1 rounded-full">React</span>
+                        <span class="bg-yellow-200 text-orange-800 text-xs px-2 py-1 rounded-full">Node.js</span>
+                        <span class="bg-yellow-200 text-orange-800 text-xs px-2 py-1 rounded-full">Python</span>
+                        <span class="bg-yellow-200 text-orange-800 text-xs px-2 py-1 rounded-full">AWS</span>
+                        <span class="bg-yellow-200 text-orange-800 text-xs px-2 py-1 rounded-full">TypeScript</span>
+                        <span class="bg-yellow-200 text-orange-800 text-xs px-2 py-1 rounded-full">Docker</span>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+            <!-- Left Section: Discover Clients -->
+            
+
+            <!-- Right Sidebar Section: My Connections and Popular Skills -->
+            <div class=" hidden md:w-0 md:block md:w-1/4 m-6">
+                <!-- My Connections -->
+                 <div class="hidden md:block">
+                    <div class="bg-white shadow-md p-4 rounded-lg">
+                        <h3 class="text-xl font-semibold mb-4">My Connections (2)</h3>
+                        <div class="space-y-4">
+                        {% for connection in connections %}
+                            <div class="flex items-center justify-between">
+                                <div class="w-8 h-8 bg-gray-200 rounded-full ", style="min-width: 30px; max-width: 30px;">
+                                    <img src="{{ connection.image.url }}" alt="{{ connection.full_name }}'s profile picture" class="w-full h-full rounded-full object-cover ">
+                                </div>
+                                <div class="flex flex-col ml-3 text-start w-full">
+                                    <h4 class="font-semibold">{{connection.full_name}}</h4>
+                                    <p class="text-sm text-gray-500">{{connection.about}}</p>
+                                </div>
+                                <a href = "{%url 'sel_chat' curId=connection.user.id %}" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 hover:bg-blue-100 hover:text-accent-foreground h-9 rounded-md px-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square w-4 h-4"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        {% endfor %}
+                        </div>
+                        <div class="p-4 flex items-center justify-center border-gray-300 rounded-lg">
+                            <button class="text-teal-500 text-xs font-semibold">View All</button>
+                        </div>
+                    </div>
+                    <!-- Popular Skills -->
+                    <div class="bg-white shadow-md p-4 rounded-lg mt-4">
+                        <h3 class="text-xl font-semibold mb-4">Popular Skills</h3>
+                        <div class="flex flex-wrap gap-2">
+                        <span class="bg-yellow-200 text-orange-800 text-xs px-2 py-1 rounded-full">React</span>
+                        <span class="bg-yellow-200 text-orange-800 text-xs px-2 py-1 rounded-full">Node.js</span>
+                        <span class="bg-yellow-200 text-orange-800 text-xs px-2 py-1 rounded-full">Python</span>
+                        <span class="bg-yellow-200 text-orange-800 text-xs px-2 py-1 rounded-full">AWS</span>
+                        <span class="bg-yellow-200 text-orange-800 text-xs px-2 py-1 rounded-full">TypeScript</span>
+                        <span class="bg-yellow-200 text-orange-800 text-xs px-2 py-1 rounded-full">Docker</span>
+                        </div>
+                    </div>
+                 </div>
+                
+
+                
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+
+
+

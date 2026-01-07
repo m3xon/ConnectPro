@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,9 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
 
+    
     'connect_app',
     'chatting_app',
     'profile_app',
+    'discover_app',
 ]
 
 MIDDLEWARE = [
@@ -72,6 +76,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'myPro.wsgi.application'
+ASGI_APPLICATION = 'myPro.asgi.application'
 
 AUTH_USER_MODEL = 'connect_app.UserMd'
 # Database
@@ -88,6 +93,15 @@ DATABASES = {
     }
 }
 
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],  # Redis server address
+        },
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

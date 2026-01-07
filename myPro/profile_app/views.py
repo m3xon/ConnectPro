@@ -22,20 +22,11 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
     model = Profile
     form_class = ProfileForm
     template_name = 'profile/edit.html'
-    
-    # Define success URL to redirect after a successful form submission
     success_url = '/profile'  # Redirect to profile page after saving
-
-    # This ensures the correct profile is updated (the currently logged-in user's profile)
     def get_object(self, queryset=None):
         return self.request.user.profile  # Get the profile of the logged-in user
 
     def form_valid(self, form):
-        # Before saving, check if the fields that should be unique are unchanged
-        # if form.cleaned_data.get('email') == self.request.user.profile.email:
-        #     form.cleaned_data['email'] = self.request.user.profile.email  # Reset unchanged email field
-
-        # Now, call the original form_valid to save the instance
         messages.success(self.request, "Profile updated successfully.")
         return super().form_valid(form)
 

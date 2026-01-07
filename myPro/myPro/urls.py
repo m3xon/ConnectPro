@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include("connect_app.urls")),
     path('message', include("chatting_app.urls")),
     path('profile', include("profile_app.urls")),
+    path('discover', include("discover_app.urls")),
 ]
 # Only serve media files when DEBUG is True
 if settings.DEBUG:
